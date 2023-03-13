@@ -18,20 +18,26 @@ module.exports = {
 		'ecmaVersion': 'latest',
 		'sourceType': 'module'
 	},
-	'plugins': [
+	plugins: [
 		'react',
-		'@typescript-eslint'
+		'@typescript-eslint',
+		'simple-import-sort',
 	],
-	'rules': {
-		'indent': [
-			'error',
-			'tab'
-		],
-		'linebreak-style': [
-			'error',
-			'unix'
-		],
-		'quotes': [
+		'simple-import-sort/imports': [2, {
+			groups: [
+				['^react'],
+				['^antd'],
+				['^@?\\w'],
+				['@/(.*)'],
+				['^~'],
+				['^~/asmlib'],
+				['^[./]'],
+				['^~assets'],
+				['@.+.(sc|sa|c)ss$'],
+				['.(sc|sa|c)ss$'],
+				['.module.(sc|sa|c)ss$'],
+			],
+		}],
 			'error',
 			'single'
 		],
