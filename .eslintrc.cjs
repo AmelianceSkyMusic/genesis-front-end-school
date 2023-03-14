@@ -24,6 +24,11 @@ module.exports = {
 		'@typescript-eslint',
 		'simple-import-sort',
 	],
+	settings: {
+		'import/resolver': {
+			typescript: {},
+		},
+	},
 	rules: {
 		indent: [2, 'tab'],
 		'react/jsx-indent': [2, 'tab', { checkAttributes: false, indentLogicalExpressions: true }],
@@ -53,6 +58,7 @@ module.exports = {
 				['@/(.*)'],
 				['^~'],
 				['^~/asmlib'],
+				['^~/ameliance-ui'],
 				['^[./]'],
 				['^~assets'],
 				['@.+.(sc|sa|c)ss$'],
