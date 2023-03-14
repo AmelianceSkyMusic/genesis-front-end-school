@@ -24,6 +24,7 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@fontsource/montserrat": "^4.5.14",
 		"asm-ts-scripts": "^0.1.103",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
