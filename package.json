@@ -3,9 +3,19 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
 	"scripts": {
-		"predeploy": "npm run build",
-		"deploy": "gh-pages -d dist",
 		"clear-modules:all": "rm -rf node_modules package-lock.json",
 		"dev": "vite",
 		"host": "vite --host",
