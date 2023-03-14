@@ -1,4 +1,6 @@
 import { forwardRef, useEffect, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import type { FieldError, FieldValues } from 'react-hook-form';
 
 import asm from 'asm-ts-scripts';
@@ -73,7 +75,9 @@ FileImgUpload.displayName = 'FileImgUpload';
 // </div>
 
 // import React, { useEffect, useState } from 'react';
-// import type { FieldError, FieldValues } from 'react-hook-form';
+// // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import type { FieldError, FieldValues } from 'react-hook-form';
 
 // import asm from 'asm-ts-scripts';
 

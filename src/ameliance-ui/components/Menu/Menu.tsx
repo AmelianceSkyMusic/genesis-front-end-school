@@ -4,8 +4,7 @@ import {
 
 import asm from 'asm-ts-scripts';
 
-import { useScrollLock } from '~/asmlib/hooks/useScrollLock';
-
+import { useScrollLock } from '../../hooks/useScrollLock';
 import { Button } from '../Button';
 import { XIcon } from '../icons/XIcon';
 

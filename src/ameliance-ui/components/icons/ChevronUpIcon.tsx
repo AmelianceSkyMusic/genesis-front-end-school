@@ -1,5 +1,5 @@
-import type { SvgIconProps } from '~/asmlib/components/SvgIcon';
-import { SvgIcon } from '~/asmlib/components/SvgIcon';
+import type { SvgIconProps } from '../SvgIcon';
+import { SvgIcon } from '../SvgIcon';
 
 export function ChevronUpIcon(props: SvgIconProps) {
 	return (

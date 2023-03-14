@@ -2,30 +2,6 @@
 @use "typography-fonts__mixins" as *;
 @use "typography-fonts__variables" as *;
 
-// >----------------------------------------------------------------<
-// >                           INIT-FONTS                           <
-// >----------------------------------------------------------------<
-
-//! use fontsource: https://fontsource.org/fonts/montserrat
-//! npm i @fontsource/montserrat
-// OR
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-Bold.ttf", 700);
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-Black.ttf", 900)
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-ExtraBold.ttf", 800)
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-Bold.ttf", 700);
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-SemiBold.ttf", 600)
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-Medium.ttf", 500);
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-Regular.ttf", 400);
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-Light.ttf", 300);
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-ExtraLight.ttf", 200)
-// @include initFontFontFace($font__name_secondary, $font__path_secondary, "Montserrat-Thin.ttf", 100)
-// OR
-// @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-// >----------------------------------------------------------------<
-// >            SET FONTS CSS VARIABLE STYLES TO CLASSES            <
-// >----------------------------------------------------------------<
-
 $setTypo-elements: (
 	h1,
 	h2,
