@@ -1,0 +1,156 @@
+{
+	// "editor.quickSuggestions": {
+	// 	"strings": true
+	// },
+	// hide folders in search
+	"search.exclude": {
+		"**/node_modules": true
+	},
+
+	// format on save eslint
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
+	// "editor.lineNumbers": "off",
+	//  "editor.folding": false,
+  	// "editor.glyphMargin": false,
+
+  	// Enable per-language
+	"[scss]": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "sibiraj-s.vscode-scss-formatter"
+	},
+	"[css]": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "sibiraj-s.vscode-scss-formatter"
+	},
+	"editor.formatOnPaste": false,
+	"files.eol": "\n",
+	"oneLineComments.customCommentTags": {
+		"javascriptreact": {
+			"outer_start": "{/*",
+			"outer_end": "*/}",
+			"inner_start": "/~~",
+			"inner_end": "~~/"
+		},
+		"typescriptreact": {
+			"outer_start": "{/*",
+			"outer_end": "*/}",
+			"inner_start": "/~~",
+			"inner_end": "~~/"
+		}
+	},
+	"cSpell.language": "en,uk,en-US",
+	"cSpell.words": [
+		"amelianceworship",
+		"appsscript",
+		"asmlib",
+		"chordslist",
+		"Firestore",
+		"ipify",
+		"sheetbest",
+		"signup",
+		"songslist",
+		"testid"
+	],
+	// "editor.formatOnSave": true,
+	// "editor.defaultFormatter": "esbenp.prettier-vscode"
+	"files.exclude": {
+		"**/.git": false,
+		"**/.svn": false,
+		"**/.hg": false,
+		"**/CVS": false,
+		"**/.DS_Store": false,
+		"**/Thumbs.db": false,
+		"**/*.git": false,
+		"_legacy": false,
+		"node_modules": false,
+		"dist": false,
+		".vscode": false,
+		"public": false,
+		".editorconfig": false,
+		".env.local": false,
+		".eslintignore": false,
+		".eslintrc-typescript.cjs": false,
+		".eslintrc.cjs": false,
+		".gitignore": false,
+		"package.json": false,
+		"postcss.config.cjs": false,
+		"tsconfig.json": false,
+		"vite.config.ts": false,
+		"index.html": false,
+		"README.md": false,
+		"vite-env.d.ts": false,
+		"src/vite-env.d.ts": false
+	},
+	"explorerExclude.backup": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"**/*.git": true,
+		"_legacy": true,
+		"node_modules": true,
+		"dist": true,
+		".vscode": true,
+		"public": false,
+		".editorconfig": true,
+		".env.local": true,
+		".eslintignore": true,
+		".eslintrc-typescript.cjs": true,
+		".eslintrc.cjs": true,
+		".gitignore": true,
+		"package.json": true,
+		"postcss.config.cjs": true,
+		"tsconfig.json": true,
+		"vite.config.ts": true,
+		"index.html": true,
+		"README.md": true,
+		"vite-env.d.ts": true,
+		"src/vite-env.d.ts": true
+	},
+
+	"multiCommand.commands": [
+		{
+		  "command": "multiCommand.consoleLog",
+		  "sequence": [
+			 "editor.action.clipboardCopyAction",
+			 "editor.action.insertLineAfter",
+			 {
+				"command": "editor.action.insertSnippet",
+				"args": {
+				  "snippet": "console.log('$CLIPBOARD: ', $CLIPBOARD);"
+				}
+			 },
+		  ]
+		},
+		{
+		  "command": "multiCommand.createReactFC",
+		  "sequence": [
+				{
+					"command": "editor.action.insertSnippet",
+					"args": {
+						"snippet": {
+							"body": [
+								"export function ${1:${TM_FILENAME_BASE}}() {",
+								"\treturn (",
+									"\t\t<div className=\"${2:${TM_FILENAME_BASE/(.*)/${1:/downcase}/}}\">${3:${TM_FILENAME_BASE}}</div>",
+								"\t);",
+								"}"
+							],
+						}
+					}
+				},
+		  ]
+		},
+	],
+
+	"css.lint.validProperties": ["composes"],
+	"scss.lint.validProperties": ["composes"],
+	// "typescript.referencesCodeLens.enabled": true,
+	// "typescript.referencesCodeLens.showOnAllFunctions": true,
+	// "javascript.referencesCodeLens.enabled": true,
+	// "javascript.referencesCodeLens.showOnAllFunctions": true
+}
