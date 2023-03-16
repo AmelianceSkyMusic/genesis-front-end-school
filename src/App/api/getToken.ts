@@ -17,9 +17,7 @@ export async function getToken(): Promise<GetTokenResponse | ErrorResponse> {
 	try {
 		const fetchUrl = `${BASE_URL}${requestURL}`;
 
-		const tokenResponse = await fetch(fetchUrl, {
-			mode: 'no-cors',
-		});
+		const tokenResponse = await fetch(fetchUrl);
 
 		const tokenData = await tokenResponse.json();
 		const { token } = tokenData;
