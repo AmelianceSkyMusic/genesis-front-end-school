@@ -22,7 +22,7 @@ export const Grid = forwardRef<ComponentElementType, Grid>(({
 	...rest
 }, ref) => {
 	const componentClass = [
-		container ? 'container' : 'row',
+		container && 'container',
 		row && 'row',
 	];
 
