@@ -30,7 +30,6 @@ module.exports = {
 		},
 	},
 	rules: {
-		indent: [2, 'tab'],
 		'react/jsx-indent': [2, 'tab', { checkAttributes: false, indentLogicalExpressions: true }],
 		'react/jsx-indent-props': [2, 'tab'],
 		'no-tabs': 0,
