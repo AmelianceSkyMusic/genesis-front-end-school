@@ -15,7 +15,12 @@ const requestURL = 'auth/anonymous?platform=subscriptions';
 
 export async function getToken(): Promise<GetTokenResponse | ErrorResponse> {
 	try {
-		const tokenResponse = await fetch(`${BASE_URL}${requestURL}`);
+		const fetchUrl = `${BASE_URL}${requestURL}`;
+
+		const tokenResponse = await fetch(fetchUrl, {
+			mode: 'no-cors',
+		});
+
 		const tokenData = await tokenResponse.json();
 		const { token } = tokenData;
 
