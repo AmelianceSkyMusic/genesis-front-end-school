@@ -1,14 +1,18 @@
-import { Route, Routes } from 'react-router-dom';
+import {
+	createBrowserRouter, createRoutesFromElements, Route, RouterProvider,
+} from 'react-router-dom';
 
 import { Layout } from '~components/Layout';
 import { CoursesPage } from '~pages/CoursesPage';
 
+const router = createBrowserRouter(createRoutesFromElements(
+	<Route path="/" element={<Layout />}>
+		<Route index element={<CoursesPage />} />
+	</Route>,
+));
+
 export function App() {
 	return (
-		<Routes>
-			<Route path="/" element={<Layout />}>
-				<Route index element={<CoursesPage />} />
-			</Route>
-		</Routes>
+		<RouterProvider router={router} />
 	);
 }
