@@ -1,0 +1,13 @@
+.CoursesPage .container {
+	flex-direction: column;
+	row-gap: var(--gap);
+	padding-top: calc(var(--gap) * 2);
+	padding-bottom: calc(var(--gap) * 2);
+}
+
+.CoursesPage .courses {
+	display: flex;
+	flex-wrap: wrap;
+	row-gap: 48px;
+	justify-content: flex-start;
+}
