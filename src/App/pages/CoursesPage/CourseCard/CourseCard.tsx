@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import asm from 'asm-ts-scripts';
 
@@ -10,6 +11,7 @@ import { Typography } from '~/ameliance-ui/components/Typography';
 import s from './CourseCard.module.scss';
 
 interface CourseCard {
+	id: string;
 	title: string;
 	description: string;
 	previewImg: string;
@@ -21,17 +23,17 @@ interface CourseCard {
 }
 
 export function CourseCard({
-	title, description, previewImg, video, lessonsCount, skills, rating, className,
+	id, title, description, previewImg, video, lessonsCount, skills, rating, className,
 }: CourseCard) {
 	const [showImg, setShowImg] = useState(true);
 
 	return (
 		<Block className={asm.join(s.CourseCard, className)}>
-			<Block
+			<Link
+				to={`/course/${id}`}
 				className={s.playerContainer}
 				onMouseEnter={() => setShowImg(false)}
 				onMouseLeave={() => setShowImg(true)}
-
 			>
 				{video && (
 					<Player
@@ -49,7 +51,7 @@ export function CourseCard({
 					src={`${previewImg}/cover.webp`}
 					alt={`Thumb ${title}`}
 				/>
-			</Block>
+			</Link>
 			<Block className={s.textContent}>
 				<Typography component="h4">{title}</Typography>
 				<Typography component="p1">{description}</Typography>
