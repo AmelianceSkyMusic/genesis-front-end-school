@@ -66,7 +66,9 @@ export function CourseCard({
 					</Block>
 					<Block className={s.contentItem}>
 						<Typography component="h5">Rating:</Typography>
-						<Typography component="p1">{rating}</Typography>
+						<Typography component="p1">
+							{`${rating} / 5`}
+						</Typography>
 					</Block>
 				</Block>
 			</Block>
