@@ -4,6 +4,7 @@ import {
 
 import { Layout } from '~components/Layout';
 import { CoursesPage } from '~pages/CoursesPage';
+import { NotFoundPage } from '~pages/NotFoundPage';
 
 const router = createBrowserRouter(createRoutesFromElements(
 	<Route path="/" element={<Layout />}>
