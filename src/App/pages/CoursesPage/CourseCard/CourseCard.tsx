@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import asm from 'asm-ts-scripts';
 
-import { Player } from '~components/Player';
+import { Player } from '~components/Player/Player';
 
 import { Block } from '~/ameliance-ui/components/blocks/Block';
 import { Typography } from '~/ameliance-ui/components/Typography';
