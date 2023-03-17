@@ -23,10 +23,7 @@ export async function getCourse(id: string): Promise<GetCourseResponse | ErrorRe
 		const fetchUrl = `${BASE_URL}${requestURL}${id}`;
 		const headers = new Headers({ Authorization: `Bearer ${token}` });
 
-		const response = await fetch(fetchUrl, {
-			headers,
-			mode: 'no-cors',
-		});
+		const response = await fetch(fetchUrl, { headers });
 		const data = await response.json();
 
 		if (data.statusCode === 401) {
