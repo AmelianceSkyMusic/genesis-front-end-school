@@ -9,13 +9,13 @@ type ComponentElementType = HTMLAnchorElement;
 interface Link extends ReactHTMLElementAttributes<
 ComponentElementType, React.AnchorHTMLAttributes<ComponentElementType>> {
 	display?: TypographyVariants;
-	noUnderline?: boolean;
+	underline?: boolean;
 	blank?: boolean;
 }
 
 export const Link = forwardRef<ComponentElementType, Link>(({
 	display,
-	noUnderline,
+	underline,
 	children,
 	blank,
 	className,
@@ -24,7 +24,7 @@ export const Link = forwardRef<ComponentElementType, Link>(({
 	// *----- create class from props -----
 	const componentClass = [
 		display || 'link',
-		noUnderline && s.noUnderline,
+		!underline && s.noUnderline,
 	];
 
 	const blankAttributes = blank && {
