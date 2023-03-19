@@ -1,5 +1,5 @@
 export const SCREEN_SIZES = {
-	SCREEN_XX: 1048576,
+	SCREEN_XX: Infinity,
 	SCREEN_XL: 1179,
 	SCREEN_LG: 1023,
 	SCREEN_MD: 767,
