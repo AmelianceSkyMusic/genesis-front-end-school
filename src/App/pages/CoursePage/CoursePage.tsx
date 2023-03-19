@@ -95,11 +95,6 @@ export function CoursePage() {
 								title={state.course.lessons[currentLessonNumber].title}
 								previewImg={`${state.course.lessons[currentLessonNumber].previewImageLink}/lesson-${state.course.lessons[currentLessonNumber].order}.webp`}
 								duration={toTimeString(state.course.lessons[currentLessonNumber].duration)}
-								current={
-									state.course.lessons[currentLessonNumber].order
-										=== currentLessonNumber + 1
-								}
-								courseId={courseId}
 								className="col-xx-12"
 								video={state.course.lessons[currentLessonNumber].link}
 							/>
