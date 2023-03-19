@@ -10,7 +10,7 @@ interface Meta {
 	courseVideoPreview: CourseVideoPreview;
 }
 
-interface Lesson {
+export interface Lesson {
 	id: string;
 	title: string;
 	duration: number;

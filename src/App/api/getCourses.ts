@@ -26,8 +26,12 @@ export async function getCourses(): Promise<GetCoursesResponse | ErrorResponse> 
 		const response = await fetch(fetchUrl, { headers });
 		const data = await response.json();
 
-		if (data.statusCode === 401) {
-			return returnError(filePath, 'Authorization error');
+		if (data.statusCode) {
+			switch (data.statusCode) {
+				case 401: return returnError(filePath, 'Authorization error');
+				case 504: return returnError(filePath, 'Sorry, gateway time out. Try again later!');
+				default: return returnError(filePath, 'Sorry, something went wrong! =(');
+			}
 		}
 
 		return returnSuccess({ courses: data.courses }) as GetCoursesResponse;
