@@ -56,7 +56,6 @@ export function CoursesPage() {
 		navigate(`${ROUTES.COURSES}/${curPage + 1}`);
 	};
 
-	console.log('currentPage: ', currentPage);
 	if (currentPage < firstPageNumber || currentPage > lastPageNumber) return <NotFoundPage />;
 
 	if (state?.status === 'error' && typeof state.error === 'string') {
