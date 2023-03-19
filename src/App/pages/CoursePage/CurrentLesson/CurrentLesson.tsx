@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import asm from 'asm-ts-scripts';
 
@@ -22,6 +22,8 @@ interface CurrentLesson {
 	previewImg: string;
 	video: string;
 	duration: string;
+	currentTime?: number;
+	onCurrentTimeChange: (time: number) => void;
 	className?: string;
 }
 
@@ -31,8 +33,11 @@ export function CurrentLesson({
 	previewImg,
 	video,
 	duration,
+	currentTime,
+	onCurrentTimeChange,
 	className,
 }: CurrentLesson) {
+	const playerRef = useRef<HTMLVideoElement>(null);
 	const [showVideo, setShowVideo] = useState(false);
 
 	const { lockScroll, unlockScroll } = useScrollLock();
@@ -45,6 +50,7 @@ export function CurrentLesson({
 	const handleBackdropOnClick = () => {
 		unlockScroll();
 		setShowVideo(false);
+		if (playerRef?.current) onCurrentTimeChange(Math.trunc(playerRef.current.currentTime));
 	};
 
 	return (
@@ -75,7 +81,9 @@ export function CurrentLesson({
 						src={video}
 						fallbackSrc={fallbackNotAvailable}
 						preload="metadata"
+						currentTime={currentTime}
 						controls
+						ref={playerRef}
 					/>
 				</Block>
 			)}
