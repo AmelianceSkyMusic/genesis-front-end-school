@@ -1,15 +1,12 @@
-.playerContainer {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
+.fallback {
 	height: 100%;
-	background-color: var(--color--1);
+	width: 100%;
+	object-fit: cover;
 }
 
-.video {
-	position: absolute;
-	top: 0;
-	left: 0;
+.emptyBlock {
 	height: 100%;
+	width: 100%;
+	background-color: red;
+	object-fit: cover;
 }
