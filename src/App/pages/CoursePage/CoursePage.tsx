@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import type { URLSearchParamsInit } from 'react-router-dom';
+import { Link, useBeforeUnload, useSearchParams } from 'react-router-dom';
 
 import asm from 'asm-ts-scripts';
 
@@ -9,6 +10,8 @@ import type { ErrorResponse } from '~api/types/ErrorResponse';
 import { ErrorPlaceholder } from '~components/ErrorPlaceholder/ErrorPlaceholder';
 import { ROUTES } from '~constants/ROUTES';
 import { asmJoinWith } from '~helpers/asmJoinWith';
+import { getLocalStorage } from '~helpers/getLocalStorage';
+import { setLocalStorage } from '~helpers/setLocalStorage';
 import { toTimeString } from '~helpers/toTimeString';
 
 import { LoaderOverlay } from '~/ameliance-ui/components/_LAB/LoaderOverlay';
@@ -22,12 +25,22 @@ import { LessonCard } from './LessonCard/LessonCard';
 
 import s from './CoursePage.module.scss';
 
+interface CoursePageParams {
+	id?: string;
+	lesson?: string;
+	time?: string;
+}
+
 export function CoursePage() {
 	const [state, setState] = useState<GetCourseResponse | ErrorResponse>();
 
-	const [searchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const courseId = searchParams.get('id') || '';
-	const currentLessonNumber = Number(searchParams.get('lesson') || 1) - 1;
+	const currentLessonNumberParam = Number(searchParams.get('lesson') || 1) - 1;
+	const currentTime = Number(searchParams.get('time'));
+
+	const [currentLessonNumber, setCurrentLessonNumber] = useState(currentLessonNumberParam);
+	const [currentLessonId, setCurrentLessonId] = useState<string>();
 
 	useEffect(() => {
 		if (courseId) {
@@ -38,6 +51,7 @@ export function CoursePage() {
 				if (typeof error !== 'string') error = 'unknown';
 
 				if ('course' in response) {
+					setCurrentLessonId(response.course.lessons[currentLessonNumber].id);
 					setState({ course: { ...response.course, ...{ lessons: asm.sortArrayOfObj(response.course.lessons, 'order') } }, status: response.status });
 				} else {
 					setState({ error: response.error, status: response.status });
@@ -48,7 +62,43 @@ export function CoursePage() {
 		} else {
 			setState({ error: 'Sorry can\'t find course=(', status: 'error' });
 		}
-	}, [courseId]);
+	}, [courseId, currentLessonNumber]);
+
+	const updateParams = ({ id, lesson, time }: CoursePageParams) => {
+		const idParam = searchParams.get('id');
+		const lessonParam = searchParams.get('lesson');
+		const timeParam = searchParams.get('time');
+		const params = {} as CoursePageParams;
+		if (id || idParam) params.id = id || idParam || '';
+		if (lesson || lessonParam) params.lesson = lesson || lessonParam || '';
+		if (time || timeParam) params.time = time || timeParam || '';
+		if (!asm.isObjectEmpty(params)) setSearchParams(params as URLSearchParamsInit);
+	};
+
+	const setCurrentTimeParams = (time: number) => {
+		updateParams({ time: time.toString() });
+		if (currentLessonId) setLocalStorage(currentLessonId, 'time', time);
+	};
+
+	useEffect(() => {
+		if (currentLessonId) {
+			const savedTime = getLocalStorage(currentLessonId, 'time');
+			if (savedTime) setCurrentTimeParams(savedTime);
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentLessonId]);
+
+	useBeforeUnload(
+		useCallback(() => {
+			if (currentLessonId && currentTime) setLocalStorage(currentLessonId, 'time', currentTime);
+		}, [currentLessonId, currentTime]),
+	);
+
+	const handleSetCurrentLessonOnClick = (number: number, id: string) => {
+		setCurrentLessonNumber(number);
+		setCurrentLessonId(id);
+		updateParams({ lesson: (number + 1).toString() });
+	};
 
 	if (state?.status === 'error' && typeof state.error === 'string') {
 		return (
@@ -95,8 +145,10 @@ export function CoursePage() {
 								title={state.course.lessons[currentLessonNumber].title}
 								previewImg={`${state.course.lessons[currentLessonNumber].previewImageLink}/lesson-${state.course.lessons[currentLessonNumber].order}.webp`}
 								duration={toTimeString(state.course.lessons[currentLessonNumber].duration)}
-								className="col-xx-12"
 								video={state.course.lessons[currentLessonNumber].link}
+								currentTime={currentTime}
+								onCurrentTimeChange={setCurrentTimeParams}
+								className="col-xx-12"
 							/>
 							<Block className={s.lessonsContainer}>
 								<Typography component="h3" className="col-xx-12">Other lessons</Typography>
@@ -104,13 +156,14 @@ export function CoursePage() {
 									state.course.lessons.map((lesson) => (
 										<LessonCard
 											key={lesson.id}
-											lessonNumber={lesson.order.toString()}
+											id={lesson.id}
+											lessonNumber={lesson.order}
 											title={lesson.title}
 											previewImg={`${lesson.previewImageLink}/lesson-${lesson.order}.webp`}
 											duration={toTimeString(lesson.duration)}
 											unlocked={lesson.status === 'unlocked'}
 											current={lesson.order === currentLessonNumber + 1}
-											courseId={courseId}
+											onClick={handleSetCurrentLessonOnClick}
 											className={s.lesson}
 										/>
 									))

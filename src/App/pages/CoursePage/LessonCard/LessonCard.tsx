@@ -1,7 +1,6 @@
 import asm from 'asm-ts-scripts';
 
 import { ResizingContainer } from '~components/ResizingContainer/ResizingContainer';
-import { useNavigateSearch } from '~hooks/useNavigateSearch';
 
 import { Block } from '~/ameliance-ui/components/blocks/Block';
 import { Img } from '~/ameliance-ui/components/Img';
@@ -12,40 +11,40 @@ import fallbackNoCover from '~assets/svg/no-cover.svg';
 import s from './LessonCard.module.scss';
 
 interface LessonCard {
-	lessonNumber: string;
+	lessonNumber: number;
+	id: string;
 	title: string;
 	previewImg: string;
 	duration: string;
 	unlocked: boolean;
 	current: boolean;
-	courseId: string;
+	onClick: (number: number, id: string) => void;
 	className?: string;
 }
 
 export function LessonCard({
 	lessonNumber,
+	id,
 	title,
 	previewImg,
 	duration,
 	unlocked,
 	current,
-	courseId,
+	onClick,
 	className,
 }: LessonCard) {
-	const navigateSearch = useNavigateSearch();
-
-	const handleLessonClick = () => {
-		navigateSearch('/course', { id: courseId, lesson: lessonNumber });
-	};
-
 	const componentClass = [
 		current && s.current,
 		!unlocked && s.disabled,
 	];
 
+	const handleVideoOnClick = () => {
+		onClick(lessonNumber - 1, id);
+	};
+
 	return (
 		<Block
-			onClick={handleLessonClick}
+			onClick={handleVideoOnClick}
 			className={asm.join(s.LessonCard, className, componentClass)}
 		>
 			<ResizingContainer className={s.imageContainer}>
