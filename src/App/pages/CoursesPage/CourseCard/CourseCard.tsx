@@ -1,12 +1,17 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import asm from 'asm-ts-scripts';
 
-import { Player } from '~components/Player/Player';
+import { ResizingContainer } from '~components/ResizingContainer/ResizingContainer';
+import { asmJoinWith } from '~helpers/asmJoinWith';
+import { useNavigateSearch } from '~hooks/useNavigateSearch';
 
 import { Block } from '~/ameliance-ui/components/blocks/Block';
+import { ButtonLink } from '~/ameliance-ui/components/Button';
+import { Img } from '~/ameliance-ui/components/Img';
 import { Typography } from '~/ameliance-ui/components/Typography';
+
+import { CardPlayer } from './CardPlayer/CardPlayer';
 
 import s from './CourseCard.module.scss';
 
@@ -17,9 +22,9 @@ interface CourseCard {
 	previewImg: string;
 	video: string;
 	lessonsCount: number;
-	skills: string[];
+	skills: string[] | null;
 	rating: number;
-	className: string;
+	className?: string;
 }
 
 export function CourseCard({
@@ -27,49 +32,55 @@ export function CourseCard({
 }: CourseCard) {
 	const [showImg, setShowImg] = useState(true);
 
+	const navigateSearch = useNavigateSearch();
+
+	const handleLessonClick = () => {
+		navigateSearch('/course', { id, lesson: '1' });
+	};
+
 	return (
 		<Block className={asm.join(s.CourseCard, className)}>
-			<Link
-				to={`/course/${id}`}
-				className={s.playerContainer}
+			<ButtonLink
+				onClick={handleLessonClick}
 				onMouseEnter={() => setShowImg(false)}
 				onMouseLeave={() => setShowImg(true)}
+				customStyle
 			>
-				{video && (
-					<Player
+				<ResizingContainer className={s.playerContainer}>
+					<CardPlayer
 						className={s.player}
 						src={video}
-						poster={`${previewImg}/cover.webp`}
+						fallbackSrc={previewImg}
 						preload="metadata"
 						loop
 						muted
 					/>
-				)}
-				<img
-					style={{ visibility: showImg ? 'visible' : 'hidden' }}
-					className={s.previewImg}
-					src={`${previewImg}/cover.webp`}
-					alt={`Thumb ${title}`}
-				/>
-			</Link>
+					<Img
+						style={{ visibility: showImg ? 'visible' : 'hidden' }}
+						className={s.previewImg}
+						src={previewImg}
+						alt={`Thumb ${title}`}
+					/>
+				</ResizingContainer>
+			</ButtonLink>
 			<Block className={s.textContent}>
 				<Typography component="h4">{title}</Typography>
 				<Typography component="p1">{description}</Typography>
 				<Block className={s.detailsContent}>
-					<Block className={s.contentItem}>
-						<Typography component="h5">Lessons:</Typography>
-						<Typography component="p1">{lessonsCount}</Typography>
-					</Block>
-					<Block className={s.contentItem}>
-						<Typography component="h5">Skills:</Typography>
-						<Typography component="p1">{skills.join(', ')}</Typography>
-					</Block>
-					<Block className={s.contentItem}>
-						<Typography component="h5">Rating:</Typography>
+					<Typography component="p1">
+						<b>Lessons: </b>
+						{lessonsCount}
+					</Typography>
+					<Typography component="p1">
+						<b>Rating: </b>
+						{`${rating} / 5`}
+					</Typography>
+					{skills && skills?.length > 0 && (
 						<Typography component="p1">
-							{`${rating} / 5`}
+							<b>Skills: </b>
+							{asmJoinWith(', ', skills)}
 						</Typography>
-					</Block>
+					)}
 				</Block>
 			</Block>
 		</Block>
