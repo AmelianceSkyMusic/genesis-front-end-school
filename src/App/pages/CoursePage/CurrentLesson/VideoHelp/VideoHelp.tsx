@@ -20,8 +20,8 @@ export function VideoHelp({
 	return (
 		<Block className={asm.join(s.VideoHelp, className)}>
 			<Block className={s.container}>
+				<Typography component="p2" className={s.text}>Current speed:</Typography>
 				<Typography component="p1" className={s.text}>{currentSpeed}</Typography>
-				<Typography component="p2" className={s.text}>— current speed</Typography>
 			</Block>
 			<Block className={s.container}>
 				<Button className={s.text} onClick={onMinusClick}>-</Button>
