@@ -9,6 +9,8 @@ import { NotFoundPage } from '~pages/NotFoundPage';
 const router = createBrowserRouter(createRoutesFromElements(
 	<Route path="/" element={<Layout />}>
 		<Route index element={<CoursesPage />} />
+		<Route path="courses/:pageNumber" element={<CoursesPage />} />
+		<Route path="*" element={<NotFoundPage />} />
 	</Route>,
 ));
 
