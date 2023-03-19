@@ -85,7 +85,7 @@ export function CoursesPage() {
 										lessonsCount={course.lessonsCount}
 										skills={Array.isArray(course.meta.skills) ? course.meta.skills : null}
 										rating={course.rating}
-										className="col-xx-4 col-lg-6 col-md-12"
+										className="col-xx-6 col-md-12"
 									/>
 								))
 							}
