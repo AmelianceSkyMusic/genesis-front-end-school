@@ -1,4 +1,4 @@
-// xx: 1180 (<1048576) Set default
+// xx: 1180 (<2147483647) Set default
 // xl: 1024
 // lg: 768
 // md: 540
@@ -7,7 +7,7 @@
 // ss: 320 (0-359);
 
 :root {
-	--screen-xx: 1048576px;
+	--screen-xx: 2147483647px;
 	--screen-xl: 1179px;
 	--screen-lg: 1023px;
 	--screen-md: 767px;
@@ -16,7 +16,7 @@
 	--screen-ss: 359px;
 }
 
-$screen-xx: 1048576px;
+$screen-xx: 2147483647px;
 $screen-xl: 1179px;
 $screen-lg: 1023px;
 $screen-md: 767px;
@@ -24,7 +24,7 @@ $screen-sm: 539px;
 $screen-xs: 479px;
 $screen-ss: 359px;
 
-// xx: <1048576 Set default
+// xx: <2147483647 Set default
 // xl: <1180
 // lg: <1024
 // md: <768

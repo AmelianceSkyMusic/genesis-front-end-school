@@ -24,7 +24,7 @@ export const Link = forwardRef<ComponentElementType, Link>(({
 	// *----- create class from props -----
 	const componentClass = [
 		display || 'link',
-		!underline && s.noUnderline,
+		underline === false && s.noUnderline,
 	];
 
 	const blankAttributes = blank && {

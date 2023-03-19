@@ -17,9 +17,6 @@ export const Block = forwardRef<ComponentElementType, Block>(({
 	className,
 	...rest
 }, ref) => {
-	// const componentClass = [
-	// ];
-
 	const attributes	= {
 		className: asm.join(className),
 		ref,

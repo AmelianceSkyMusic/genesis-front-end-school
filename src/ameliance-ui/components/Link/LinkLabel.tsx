@@ -8,13 +8,13 @@ type ComponentElementType = HTMLSpanElement;
 
 interface LinkLabel extends ReactHTMLElementAttributes<ComponentElementType> {
 	display?: TypographyVariants;
-	noUnderline?: boolean;
+	underline?: boolean;
 	blank?: boolean;
 }
 
 export const LinkLabel = forwardRef<ComponentElementType, LinkLabel>(({
 	display,
-	noUnderline,
+	underline,
 	children,
 	blank,
 	className,
@@ -23,7 +23,7 @@ export const LinkLabel = forwardRef<ComponentElementType, LinkLabel>(({
 	// *----- create class from props -----
 	const componentClass = [
 		display || 'link',
-		noUnderline && s.noUnderline,
+		underline === false && s.noUnderline,
 	];
 
 	const blankAttributes = blank && {
