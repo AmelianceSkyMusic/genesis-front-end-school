@@ -7,6 +7,7 @@ import asm from 'asm-ts-scripts';
 import Hls from 'hls.js';
 
 import { appError } from '~helpers/appError';
+import { mergeRefs } from '~helpers/mergeRefs';
 
 import { Block } from '~/ameliance-ui/components/blocks/Block';
 import { Img } from '~/ameliance-ui/components/Img';
@@ -19,15 +20,16 @@ type ComponentElementType = HTMLVideoElement;
 
 interface Player extends VideoHTMLAttributes<ComponentElementType> {
 	fallbackSrc?: string;
+	currentTime?: number;
 }
 
 export const Player = forwardRef<ComponentElementType, Player>(({
 	src,
 	fallbackSrc,
+	currentTime,
 	children,
 	className,
 	...rest
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 }: Player, ref) => {
 	const [isVideo, setIsVideo] = useState(true);
 	const videoRef = useRef<HTMLVideoElement>(null);
@@ -57,11 +59,12 @@ export const Player = forwardRef<ComponentElementType, Player>(({
 				});
 				hls.loadSource(src);
 				hls.attachMedia(video);
+				if (currentTime) videoRef.current.currentTime = currentTime;
 			}
 		} else {
 			setIsVideo(false);
 		}
-	}, [src]);
+	}, [currentTime, src]);
 
 	return (
 		<>
@@ -69,7 +72,7 @@ export const Player = forwardRef<ComponentElementType, Player>(({
 				// eslint-disable-next-line jsx-a11y/media-has-caption
 				<video
 					className={asm.join(s.Player, className)}
-					ref={videoRef}
+					ref={mergeRefs([ref, videoRef])}
 					{...rest}
 				>
 					{children}
