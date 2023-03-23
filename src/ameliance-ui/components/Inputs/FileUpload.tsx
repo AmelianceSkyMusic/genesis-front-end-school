@@ -6,15 +6,15 @@ import s from './FileUpload.module.scss';
 
 type ComponentElementType = HTMLInputElement;
 
-interface FileUpload extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface FileUploadProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	icon: string;
 }
 
-export const FileUpload = forwardRef<ComponentElementType, FileUpload>(({
+export const FileUpload = forwardRef<ComponentElementType, FileUploadProps>(({
 	children,
 	className,
 	...rest
-}: FileUpload, ref) => (
+}, ref) => (
 
 	<div>
 		<label htmlFor="file">

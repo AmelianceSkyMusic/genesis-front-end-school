@@ -7,19 +7,19 @@ import { getGridClass } from './helpers/grid';
 
 type ComponentElementType = HTMLElement;
 
-interface Section extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface SectionProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	container?: boolean;
 	gridContainer?: boolean;
 	grid?: Grid;
 }
 
-export const Section = forwardRef<ComponentElementType, Section>(({
+export const Section = forwardRef<ComponentElementType, SectionProps>(({
 	gridContainer,
 	grid,
 	children,
 	className,
 	...rest
-}: Section, ref) => {
+}, ref) => {
 	const componentClass = [
 		grid && getGridClass(grid),
 	];

@@ -5,28 +5,27 @@ import type { FieldError, FieldValues } from 'react-hook-form';
 
 import asm from 'asm-ts-scripts';
 
-import { Typography } from '../Typography';
-
 import { Icon } from '../Icon';
 import { EyeOffIcon } from '../icons/EyeOffIcon';
 import { EyeOnIcon } from '../icons/EyeOnIcon';
+import { Typography } from '../Typography';
 
 import s from './PasswordInput.module.scss';
 
 type ComponentElementType = HTMLInputElement;
 
-interface PasswordInput extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface PasswordInputProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	register: FieldValues;
 	errors: Record<string, FieldError> | undefined;
 }
 
-export const PasswordInput = forwardRef<ComponentElementType, PasswordInput>(({
+export const PasswordInput = forwardRef<ComponentElementType, PasswordInputProps>(({
 	register,
 	errors,
 	placeholder,
 	children,
 	...rest
-}: PasswordInput, ref) => {
+}, ref) => {
 	const [isShowPassword, setIsShowPassword] = useState(false);
 
 	const handlerIconClick = (event: React.MouseEvent<HTMLElement>) => {

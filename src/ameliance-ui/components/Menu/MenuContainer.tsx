@@ -6,13 +6,13 @@ import s from './MenuContainer.module.scss';
 
 type ComponentElementType = HTMLDivElement;
 
-type MenuContainer = ReactHTMLElementAttributes<ComponentElementType>;
+export type MenuContainerProps = ReactHTMLElementAttributes<ComponentElementType>;
 
-export const MenuContainer = forwardRef<ComponentElementType, MenuContainer>(({
+export const MenuContainer = forwardRef<ComponentElementType, MenuContainerProps>(({
 	children,
 	className,
 	...rest
-}: MenuContainer, ref) => (
+}, ref) => (
 	<div
 		className={asm.join(s.MenuContainer, className)}
 		ref={ref}

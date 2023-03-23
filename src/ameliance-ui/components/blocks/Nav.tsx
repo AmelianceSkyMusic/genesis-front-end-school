@@ -6,13 +6,12 @@ import type { Grid } from './helpers/grid';
 import { getGridClass } from './helpers/grid';
 
 type ComponentElementType = HTMLElement;
-
-interface Nav extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface NavProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	gridContainer?: boolean;
 	grid?: Grid;
 }
 
-export const Nav = forwardRef<ComponentElementType, Nav>(({
+export const Nav = forwardRef<ComponentElementType, NavProps>(({
 	gridContainer,
 	grid,
 	children,

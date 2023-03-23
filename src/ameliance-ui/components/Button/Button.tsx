@@ -6,14 +6,14 @@ import s from './Button.module.scss';
 
 type ComponentElementType = HTMLButtonElement;
 
-interface Button extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface ButtonProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	size?: ComponentSizes;
 	disabled?: boolean;
 	type?: 'primary' | 'secondary' | 'text';
 	submit?: boolean;
 }
 
-export const Button = forwardRef<ComponentElementType, Button>(({
+export const Button = forwardRef<ComponentElementType, ButtonProps>(({
 	size = 'default',
 	type = 'primary',
 	submit,

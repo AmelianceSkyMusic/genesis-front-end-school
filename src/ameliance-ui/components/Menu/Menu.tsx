@@ -12,7 +12,7 @@ import s from './Menu.module.scss';
 
 type ComponentElementType = HTMLDivElement;
 
-interface Menu extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface MenuProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	children: React.ReactNode;
 	isOpen: boolean;
 	scrollLock?: boolean;
@@ -28,7 +28,7 @@ interface Menu extends ReactHTMLElementAttributes<ComponentElementType> {
 		vertical: 'top' | 'center' | 'bottom';
 	};
 }
-export const Menu = forwardRef<ComponentElementType, Menu>(({
+export const Menu = forwardRef<ComponentElementType, MenuProps>(({
 	children,
 	isOpen,
 	scrollLock,
@@ -38,7 +38,7 @@ export const Menu = forwardRef<ComponentElementType, Menu>(({
 	menuOrigin,
 	anchorOrigin,
 	...rest
-}: Menu, ref) => {
+}, ref) => {
 	const menuRef = useRef<HTMLUListElement>(null);
 
 	const [show, setShow] = useState(true);

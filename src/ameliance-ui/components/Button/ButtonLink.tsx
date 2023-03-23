@@ -6,7 +6,7 @@ import s from './Button.module.scss';
 
 type ComponentElementType = HTMLAnchorElement;
 
-interface ButtonLink extends ReactHTMLElementAttributes<
+export interface ButtonLinkProps extends ReactHTMLElementAttributes<
 ComponentElementType, React.AnchorHTMLAttributes<ComponentElementType>> {
 	size?: ComponentSizes;
 	width?: string | number;
@@ -17,7 +17,7 @@ ComponentElementType, React.AnchorHTMLAttributes<ComponentElementType>> {
 	customStyle?: boolean;
 }
 
-export const ButtonLink = forwardRef<ComponentElementType, ButtonLink>(({
+export const ButtonLink = forwardRef<ComponentElementType, ButtonLinkProps>(({
 	size = 'default',
 	width,
 	height,

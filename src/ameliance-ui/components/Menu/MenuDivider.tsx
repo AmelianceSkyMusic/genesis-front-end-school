@@ -6,12 +6,12 @@ import s from './MenuDivider.module.scss';
 
 type ComponentElementType = HTMLSpanElement;
 
-type MenuDivider = ReactHTMLElementAttributes<ComponentElementType>;
+export type MenuDividerProps = ReactHTMLElementAttributes<ComponentElementType>;
 
-export const MenuDivider = forwardRef<ComponentElementType, MenuDivider>(({
+export const MenuDivider = forwardRef<ComponentElementType, MenuDividerProps>(({
 	className,
 	...rest
-}: MenuDivider, ref) => (
+}, ref) => (
 	<span
 		className={asm.join(s.MenuDivider, className)}
 		ref={ref}

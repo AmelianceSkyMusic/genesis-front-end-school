@@ -7,13 +7,13 @@ import { Component } from '../_LAB/Component';
 
 type ComponentElementType = ComponentProps<ElementType>;
 
-interface Grid extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface GridProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	component?: ElementType;
 	container?: boolean;
 	row?: boolean;
 }
 
-export const Grid = forwardRef<ComponentElementType, Grid>(({
+export const Grid = forwardRef<ComponentElementType, GridProps>(({
 	container,
 	row,
 	component = 'div',

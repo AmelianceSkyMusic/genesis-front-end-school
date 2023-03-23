@@ -11,19 +11,19 @@ import s from './Checkbox.module.scss';
 
 type ComponentElementType = HTMLInputElement;
 
-interface Checkbox extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface CheckboxProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	register: FieldValues;
 	errors: Record<string, FieldError> | undefined;
 	label: string;
 }
 
-export const Checkbox = forwardRef<ComponentElementType, Checkbox>(({
+export const Checkbox = forwardRef<ComponentElementType, CheckboxProps>(({
 	register,
 	errors,
 	label,
 	children,
 	...rest
-}: Checkbox, ref) => (
+}, ref) => (
 
 	<div className={s.Checkbox}>
 		<Typography component="h3">{children}</Typography>

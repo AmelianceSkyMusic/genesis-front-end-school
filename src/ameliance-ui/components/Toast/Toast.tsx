@@ -16,7 +16,7 @@ import s from './Toast.module.scss';
 type ElementType = HTMLDivElement;
 type ElementProps = React.DetailedHTMLProps<React.HTMLAttributes<ElementType>, ElementType>;
 
-interface Toast extends ElementProps {
+interface ToastProps extends ElementProps {
 	id: string;
 	message: string;
 	title?: string;
@@ -29,7 +29,7 @@ interface Toast extends ElementProps {
 	autoDeleteTime?: number;
 }
 
-export const Toast = forwardRef<HTMLDivElement, Toast>(({
+export const Toast = forwardRef<HTMLDivElement, ToastProps>(({
 	id,
 	message,
 	title,
@@ -42,7 +42,7 @@ export const Toast = forwardRef<HTMLDivElement, Toast>(({
 	autoDeleteTime = 0,
 	className,
 	...rest
-}: Toast, ref) => {
+}, ref) => {
 	const [isShow, setIsShow] = useState(false);
 
 	const sizeClass = (size === 'medium' && s.medium) || (size === 'large' && s.large);

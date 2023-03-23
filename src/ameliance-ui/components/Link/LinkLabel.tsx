@@ -6,13 +6,13 @@ import s from './Link.module.scss';
 
 type ComponentElementType = HTMLSpanElement;
 
-interface LinkLabel extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface LinkLabelProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	display?: TypographyVariants;
 	underline?: boolean;
 	blank?: boolean;
 }
 
-export const LinkLabel = forwardRef<ComponentElementType, LinkLabel>(({
+export const LinkLabel = forwardRef<ComponentElementType, LinkLabelProps>(({
 	display,
 	underline,
 	children,

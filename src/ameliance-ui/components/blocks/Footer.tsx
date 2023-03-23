@@ -4,9 +4,9 @@ import asm from 'asm-ts-scripts';
 
 type ComponentElementType = HTMLElement;
 
-type Footer = ReactHTMLElementAttributes<ComponentElementType>;
+export type FooterProps = ReactHTMLElementAttributes<ComponentElementType>;
 
-export const Footer = forwardRef<ComponentElementType, Footer>(({
+export const Footer = forwardRef<ComponentElementType, FooterProps>(({
 	children,
 	className,
 	...rest

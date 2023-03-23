@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-interface PortalProps {
+export interface PortalProps {
 	children: React.ReactElement;
 	className?: string;
 	elementType?: string;

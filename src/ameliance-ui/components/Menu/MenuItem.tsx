@@ -6,18 +6,17 @@ import s from './MenuItem.module.scss';
 
 type ComponentElementType = HTMLLIElement;
 
-interface MenuItem extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface MenuItemProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	children: React.ReactNode;
 	disabled?: boolean;
 }
 
-export const MenuItem = forwardRef<ComponentElementType, MenuItem>(({
+export const MenuItem = forwardRef<ComponentElementType, MenuItemProps>(({
 	disabled,
 	children,
 	className,
 	...rest
-}: MenuItem, ref) => {
-	// *----- create class from props -----
+}, ref) => {
 	const componentClass = [
 		disabled && s.disabled,
 	];
