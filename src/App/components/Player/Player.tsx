@@ -7,10 +7,10 @@ import asm from 'asm-ts-scripts';
 import Hls from 'hls.js';
 
 import { appError } from '~helpers/appError';
-import { mergeRefs } from '~helpers/mergeRefs';
 
 import { Block } from '~/ameliance-ui/components/blocks/Block';
 import { Img } from '~/ameliance-ui/components/Img';
+import { mergeRefs } from '~/ameliance-ui/helpers/mergeRefs';
 
 import s from './Player.module.scss';
 
