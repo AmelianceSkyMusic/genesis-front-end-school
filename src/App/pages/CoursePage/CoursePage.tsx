@@ -121,11 +121,13 @@ export function CoursePage() {
 				{!asm.isObjectEmpty(course) && lessons.length > 0 && (
 					<>
 						<Link to={`${ROUTES.COURSES}/1`}>
-							<LinkLabel underline={false} display="h5">← Courses</LinkLabel>
+							<LinkLabel underline={false} display="h4">
+								Courses /
+							</LinkLabel>
 						</Link>
 						<Grid row component="section" className={s.course}>
 							<Block className={s.courseTextContent}>
-								<Typography component="h2">{course.title}</Typography>
+								<Typography component="h3">{course.title}</Typography>
 								<Typography component="p1">{course.description}</Typography>
 								<Block className={s.courseDetailsContent}>
 									<Typography component="p1">
