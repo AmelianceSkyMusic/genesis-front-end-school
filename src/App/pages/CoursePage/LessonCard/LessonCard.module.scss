@@ -28,6 +28,7 @@
 .imageContainer {
 	width: 146px;
 	overflow: hidden;
+	background-color: var(--color--1);
 	border: 3px solid var(--color--1);
 	border-radius: 16px;
 	@include screen-xs {
