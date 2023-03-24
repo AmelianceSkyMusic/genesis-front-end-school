@@ -7,7 +7,7 @@ import { Component } from '../_LAB/Component';
 type ComponentElementType = HTMLHeadingElement | HTMLParagraphElement;
 
 export interface TypographyProps extends ReactHTMLElementAttributes<ComponentElementType> {
-	component: TypographyVariants;
+	component?: TypographyVariants;
 	display?: TypographyVariants;
 }
 
@@ -22,9 +22,11 @@ export const Typography = forwardRef<ComponentElementType, TypographyProps>(({
 	className,
 	...rest
 }, ref) => {
+	const componentTag = component || 'p';
+
 	const attributes = { className: asm.join(className, display || component), ref, ...rest };
 
-	const tagType = tag[component as keyof typeof tag] || 'p';
+	const tagType = tag[componentTag as keyof typeof tag] || 'p';
 
 	return (<Component as={tagType as keyof typeof tag} {...attributes}>{children}</Component>);
 });
