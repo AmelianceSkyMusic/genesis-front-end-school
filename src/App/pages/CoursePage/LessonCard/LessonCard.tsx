@@ -1,6 +1,8 @@
 import asm from 'asm-ts-scripts';
 
 import { ResizingContainer } from '~components/ResizingContainer/ResizingContainer';
+import { toTimeString } from '~helpers/toTimeString';
+import type { Lesson } from '~store/useCourseState';
 
 import { Block } from '~/ameliance-ui/components/blocks/Block';
 import { Img } from '~/ameliance-ui/components/Img';
@@ -10,36 +12,26 @@ import fallbackNoCover from '~assets/svg/no-cover.svg';
 
 import s from './LessonCard.module.scss';
 
-interface LessonCard {
-	lessonNumber: number;
-	id: string;
-	title: string;
-	previewImg: string;
-	duration: string;
-	unlocked: boolean;
+interface LessonCardProps {
+	lesson: Lesson;
 	current: boolean;
 	onClick: (number: number, id: string) => void;
 	className?: string;
 }
 
 export function LessonCard({
-	lessonNumber,
-	id,
-	title,
-	previewImg,
-	duration,
-	unlocked,
+	lesson,
 	current,
 	onClick,
 	className,
-}: LessonCard) {
+}: LessonCardProps) {
 	const componentClass = [
 		current && s.current,
-		!unlocked && s.disabled,
+		!lesson.unlocked && s.disabled,
 	];
 
 	const handleVideoOnClick = () => {
-		onClick(lessonNumber - 1, id);
+		if (!current) onClick(lesson.order || 1, lesson.id || '');
 	};
 
 	return (
@@ -50,19 +42,21 @@ export function LessonCard({
 			<ResizingContainer className={s.imageContainer}>
 				<Img
 					className={s.previewImg}
-					src={previewImg}
-					alt={`Thumb ${title}`}
+					src={lesson.previewImageLink || ''}
+					alt={`Thumb ${lesson.title}`}
 					fallbackScr={fallbackNoCover}
 				/>
 			</ResizingContainer>
 			<Block className={s.textContent}>
-				<Typography component="h5">{`${lessonNumber}. ${title}`}</Typography>
-				<Block className={s.contentItem}>
-					<Typography component="h6">Duration:</Typography>
-					<Typography component="p2">{duration}</Typography>
-				</Block>
+				<Typography component="h5">{`${lesson.order}. ${lesson.title}`}</Typography>
+				{lesson.duration && (
+					<Block className={s.contentItem}>
+						<Typography component="h6">Duration:</Typography>
+						<Typography component="p2">{toTimeString(lesson.duration)}</Typography>
+					</Block>
+				)}
 			</Block>
-			{!unlocked && (
+			{!lesson.unlocked && (
 				<Block className={s.lock}>
 					<Typography component="p1" display="h4">LOCKED</Typography>
 				</Block>

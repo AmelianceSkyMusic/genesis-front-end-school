@@ -5,8 +5,11 @@ import asm from 'asm-ts-scripts';
 
 import { Player } from '~components/Player/Player';
 import { ResizingContainer } from '~components/ResizingContainer/ResizingContainer';
+import { toTimeString } from '~helpers/toTimeString';
+import type { Lesson } from '~store/useCourseState';
 
 import { Backdrop } from '~/ameliance-ui/components/Backdrop';
+import type { BlockProps } from '~/ameliance-ui/components/blocks/Block';
 import { Block } from '~/ameliance-ui/components/blocks/Block';
 import { Img } from '~/ameliance-ui/components/Img';
 import { Typography } from '~/ameliance-ui/components/Typography';
@@ -19,27 +22,19 @@ import fallbackNotAvailable from '~assets/svg/not-available.svg';
 
 import s from './CurrentLesson.module.scss';
 
-interface CurrentLesson {
-	lessonNumber: string;
-	title: string;
-	previewImg: string;
-	video: string;
-	duration: string;
+interface CurrentLessonProps extends BlockProps {
+	lesson: Lesson;
 	currentTime?: number;
 	onCurrentTimeChange: (time: number) => void;
 	className?: string;
 }
 
 export function CurrentLesson({
-	lessonNumber,
-	title,
-	previewImg,
-	video,
-	duration,
+	lesson,
 	currentTime,
 	onCurrentTimeChange,
 	className,
-}: CurrentLesson) {
+}: CurrentLessonProps) {
 	const playerRef = useRef<HTMLVideoElement>(null);
 	const [showVideo, setShowVideo] = useState(false);
 	const [videoSpeed, setVideoSpeed] = useState(1);
@@ -88,25 +83,27 @@ export function CurrentLesson({
 			<ResizingContainer className={s.imageContainer}>
 				<Img
 					className={s.previewImg}
-					src={previewImg}
-					alt={`Thumb ${title}`}
+					src={lesson.previewImageLink || ''}
+					alt={`Thumb ${lesson.title}`}
 					fallbackScr={fallbackNoCover}
 					onClick={handleLessonOnClick}
 				/>
 			</ResizingContainer>
 			<Block className={s.textContent}>
-				<Typography component="h4">{`${lessonNumber}. ${title}`}</Typography>
-				<Block className={s.contentItem}>
-					<Typography component="h5">Duration:</Typography>
-					<Typography component="p1">{duration}</Typography>
-				</Block>
+				<Typography component="h4">{`${lesson.order || 1}. ${lesson.title}`}</Typography>
+				{lesson.duration && (
+					<Block className={s.contentItem}>
+						<Typography component="h5">Duration:</Typography>
+						<Typography component="p1">{toTimeString(lesson.duration)}</Typography>
+					</Block>
+				)}
 			</Block>
-			{showVideo && video && (
+			{showVideo && lesson.videoLink && (
 				<Block className={s.videoLesson}>
 					<Backdrop show={showVideo} onClick={handleBackdropOnClick} className={s.backdrop} />
 					<Player
 						className={s.player}
-						src={video}
+						src={lesson.videoLink}
 						fallbackSrc={fallbackNotAvailable}
 						preload="metadata"
 						currentTime={currentTime}

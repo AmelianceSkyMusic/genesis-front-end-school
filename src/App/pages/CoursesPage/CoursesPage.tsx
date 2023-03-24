@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { api } from '~api/index';
-import type { Course } from '~api/types/Courses';
-import type { ErrorResponse } from '~api/types/ErrorResponse';
 import { ErrorPlaceholder } from '~components/ErrorPlaceholder/ErrorPlaceholder';
 import { Pagination } from '~components/Pagination/Pagination';
 import { ROUTES } from '~constants/ROUTES';
 import { NotFoundPage } from '~pages/NotFoundPage';
+import { useCoursesState } from '~store/useCoursesState';
+import { useUserState } from '~store/useUserState';
 
 import { LoaderOverlay } from '~/ameliance-ui/components/_LAB/LoaderOverlay';
 import { Block } from '~/ameliance-ui/components/blocks/Block';
@@ -18,37 +17,41 @@ import { CourseCard } from './CourseCard/CourseCard';
 
 import s from './CoursesPage.module.scss';
 
-const firstPageNumber = 0;
-const coursesPerPage = 10;
-
 export function CoursesPage() {
+	const token = useUserState((state) => state.token);
+	const tokenError = useUserState((state) => state.error);
+
+	const {
+		courses,
+		currentPage,
+		firstPageNumber,
+		lastPageNumber,
+		setCurrentPage,
+		loading,
+		error,
+		fetchCourses,
+	} = useCoursesState((state) => ({
+		courses: state.courses,
+		currentPage: state.currentPage,
+		firstPageNumber: state.firstPageNumber,
+		lastPageNumber: state.lastPageNumber,
+		setCurrentPage: state.setCurrentPage,
+		loading: state.loading,
+		error: state.error,
+		fetchCourses: state.fetchCourses,
+	}));
+
 	const navigate = useNavigate();
 	const { pageNumber } = useParams();
 
-	const [state, setState] = useState<{ courses: Course[][]; status: 'success' } | ErrorResponse>();
-	const [currentPage, setCurrentPage] = useState<number>(pageNumber ? Number(pageNumber) - 1 : 0);
-	const [lastPageNumber, setLastPageNumber] = useState(Infinity);
+	useEffect(() => {
+		if (token) fetchCourses({ token });
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [token]);
 
 	useEffect(() => {
-		const dataFetch = async () => {
-			const response = await api.getCourses();
-			let { error } = response;
-			if (typeof error !== 'string') error = 'unknown';
-
-			if ('courses' in response) {
-				const { courses } = response;
-				const coursesPages = [];
-				for (let i = 0; i < courses.length; i += coursesPerPage) {
-					coursesPages.push(courses.slice(i, i + coursesPerPage));
-				}
-				setLastPageNumber(coursesPages.length - 1);
-				setState({ courses: coursesPages, status: response.status });
-			} else {
-				setState({ error: response.error, status: response.status });
-			}
-		};
-
-		dataFetch();
+		if (pageNumber) setCurrentPage(Number(pageNumber) - 1);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handlePaginationSetCurrentPage = (curPage: number) => {
@@ -58,34 +61,28 @@ export function CoursesPage() {
 
 	if (currentPage < firstPageNumber || currentPage > lastPageNumber) return <NotFoundPage />;
 
-	if (state?.status === 'error' && typeof state.error === 'string') {
-		return (
-			<ErrorPlaceholder>
-				<Typography component="p1">{state.error}</Typography>
-			</ErrorPlaceholder>
-		);
-	}
+	if (error || tokenError) return <ErrorPlaceholder>{error || tokenError}</ErrorPlaceholder>;
 
 	return (
 		<Block component="main" className={s.CoursesPage}>
 			<Grid container component="section" className={s.container}>
-				{state?.status === 'success' && (
+				{courses.length > 0 && (
 					<>
 						<Typography component="h2">Courses</Typography>
 						<Grid row component="section" className={s.courses}>
 							{
-								state.courses[currentPage].map((course) => (
+								courses[currentPage].map((course) => (
 									<CourseCard
 										key={course.id}
 										id={course.id}
 										title={course.title}
-										previewImg={`${course.previewImageLink}/cover.webp`}
-										video={course.meta?.courseVideoPreview?.link || ''}
-										description={course.description || ''}
+										previewImg={course.previewImageLink}
+										video={course.videoLink}
+										description={course.description}
 										lessonsCount={course.lessonsCount}
-										skills={Array.isArray(course.meta.skills) ? course.meta.skills : null}
+										skills={course.skills}
 										rating={course.rating}
-										className="col-xx-6 col-md-12"
+										grid={{ xx: 6, md: 12 }}
 									/>
 								))
 							}
@@ -99,7 +96,7 @@ export function CoursesPage() {
 					</>
 				)}
 			</Grid>
-			{!state?.status && <LoaderOverlay />}
+			{loading === true && <LoaderOverlay />}
 		</Block>
 	);
 }

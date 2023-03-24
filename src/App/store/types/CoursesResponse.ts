@@ -8,21 +8,11 @@ interface Meta {
 	slug: string;
 	skills: string[];
 	courseVideoPreview: CourseVideoPreview;
+	fullCourseProductId: string;
+	fullCourseProductFamily: string;
 }
 
-export interface Lesson {
-	id: string;
-	title: string;
-	duration: number;
-	order: number;
-	type: string;
-	status: string;
-	link: string;
-	previewImageLink: string;
-	meta?: unknown;
-}
-
-export interface Course {
+interface Course {
 	id: string;
 	title: string;
 	tags: string[];
@@ -30,9 +20,13 @@ export interface Course {
 	status: string;
 	description: string;
 	duration: number;
+	lessonsCount: number;
+	containsLockedLessons: boolean;
 	previewImageLink: string;
 	rating: number;
 	meta: Meta;
-	lessons: Lesson[];
-	containsLockedLessons: boolean;
+}
+
+export interface CoursesResponse {
+	courses: Course[];
 }

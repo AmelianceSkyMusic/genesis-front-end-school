@@ -1,4 +1,4 @@
-export interface Error {
+export interface ErrorResponse {
 	statusCode: number;
 	localization: string;
 	message: string;

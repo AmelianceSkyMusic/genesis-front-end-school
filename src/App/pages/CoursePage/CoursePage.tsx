@@ -1,18 +1,16 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import type { URLSearchParamsInit } from 'react-router-dom';
 import { Link, useBeforeUnload, useSearchParams } from 'react-router-dom';
 
 import asm from 'asm-ts-scripts';
 
-import type { GetCourseResponse } from '~api/getCourse';
-import { api } from '~api/index';
-import type { ErrorResponse } from '~api/types/ErrorResponse';
 import { ErrorPlaceholder } from '~components/ErrorPlaceholder/ErrorPlaceholder';
 import { ROUTES } from '~constants/ROUTES';
 import { asmJoinWith } from '~helpers/asmJoinWith';
 import { getLocalStorage } from '~helpers/getLocalStorage';
 import { setLocalStorage } from '~helpers/setLocalStorage';
-import { toTimeString } from '~helpers/toTimeString';
+import { useCourseState } from '~store/useCourseState';
+import { useUserState } from '~store/useUserState';
 
 import { LoaderOverlay } from '~/ameliance-ui/components/_LAB/LoaderOverlay';
 import { Block } from '~/ameliance-ui/components/blocks/Block';
@@ -32,46 +30,62 @@ interface CoursePageParams {
 }
 
 export function CoursePage() {
-	const [state, setState] = useState<GetCourseResponse | ErrorResponse>();
+	const token = useUserState((state) => state.token);
+	const tokenError = useUserState((state) => state.error);
+
+	const {
+		course,
+		lessons,
+		currentLessonId,
+		setCurrentLessonId,
+		currentLessonNumber,
+		setCurrentLessonNumber,
+		loading,
+		error,
+		fetchCourse,
+	} = useCourseState((state) => ({
+		course: state.course,
+		lessons: state.lessons,
+		currentLessonId: state.currentLessonId,
+		setCurrentLessonId: state.setCurrentLessonId,
+		currentLessonNumber: state.currentLessonNumber,
+		setCurrentLessonNumber: state.setCurrentLessonNumber,
+		loading: state.loading,
+		error: state.error,
+		fetchCourse: state.fetchCourse,
+	}));
 
 	const [searchParams, setSearchParams] = useSearchParams();
-	const courseId = searchParams.get('id') || '';
+	const courseIdParam = searchParams.get('id') || '';
 	const currentLessonNumberParam = Number(searchParams.get('lesson') || 1) - 1;
 	const currentTime = Number(searchParams.get('time'));
 
-	const [currentLessonNumber, setCurrentLessonNumber] = useState(currentLessonNumberParam);
-	const [currentLessonId, setCurrentLessonId] = useState<string>();
+	useEffect(() => {
+		if (token) fetchCourse({ token, id: courseIdParam || '' });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [token]);
 
 	useEffect(() => {
-		if (courseId) {
-			const dataFetch = async () => {
-				const response = await api.getCourse(courseId);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [lessons]);
 
-				let { error } = response;
-				if (typeof error !== 'string') error = 'unknown';
+	useEffect(() => {
+		if (currentLessonNumberParam >= 0) setCurrentLessonNumber(currentLessonNumberParam);
 
-				if ('course' in response) {
-					setCurrentLessonId(response.course.lessons[currentLessonNumber].id);
-					setState({ course: { ...response.course, ...{ lessons: asm.sortArrayOfObj(response.course.lessons, 'order') } }, status: response.status });
-				} else {
-					setState({ error: response.error, status: response.status });
-				}
-			};
+		const lessonId = lessons[currentLessonNumber]?.id;
+		if (lessonId) setCurrentLessonId(lessonId);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentLessonNumberParam]);
 
-			dataFetch();
-		} else {
-			setState({ error: 'Sorry can\'t find course=(', status: 'error' });
-		}
-	}, [courseId, currentLessonNumber]);
+	// const [currentLessonNumber, setCurrentLessonNumber] = useState(currentLessonNumberParam);
 
 	const updateParams = ({ id, lesson, time }: CoursePageParams) => {
 		const idParam = searchParams.get('id');
 		const lessonParam = searchParams.get('lesson');
-		const timeParam = searchParams.get('time');
 		const params = {} as CoursePageParams;
 		if (id || idParam) params.id = id || idParam || '';
 		if (lesson || lessonParam) params.lesson = lesson || lessonParam || '';
-		if (time || timeParam) params.time = time || timeParam || '';
+		if (time) params.time = time || '';
 		if (!asm.isObjectEmpty(params)) setSearchParams(params as URLSearchParamsInit);
 	};
 
@@ -95,74 +109,58 @@ export function CoursePage() {
 	);
 
 	const handleSetCurrentLessonOnClick = (number: number, id: string) => {
-		setCurrentLessonNumber(number);
 		setCurrentLessonId(id);
-		updateParams({ lesson: (number + 1).toString() });
+		updateParams({ lesson: number.toString() });
 	};
 
-	if (state?.status === 'error' && typeof state.error === 'string') {
-		return (
-			<ErrorPlaceholder>
-				<Typography component="p1">{state.error}</Typography>
-			</ErrorPlaceholder>
-		);
-	}
+	if (error || tokenError) return <ErrorPlaceholder>{error || tokenError}</ErrorPlaceholder>;
 
 	return (
 		<Block component="main" className={s.CoursePage}>
 			<Grid container component="section" className={s.container}>
-				{state?.status === 'success' && (
+				{!asm.isObjectEmpty(course) && lessons.length > 0 && (
 					<>
 						<Link to={`${ROUTES.COURSES}/1`}>
 							<LinkLabel underline={false} display="h5">← Courses</LinkLabel>
 						</Link>
 						<Grid row component="section" className={s.course}>
 							<Block className={s.courseTextContent}>
-								<Typography component="h2">{state.course.title}</Typography>
-								<Typography component="p1">{state.course.description}</Typography>
+								<Typography component="h2">{course.title}</Typography>
+								<Typography component="p1">{course.description}</Typography>
 								<Block className={s.courseDetailsContent}>
 									<Typography component="p1">
 										<b>Lessons: </b>
-										{state.course.lessons.length}
+										{course.lessonsCount}
 									</Typography>
 									<Typography component="p1">
 										<b>Rating: </b>
-										{`${state.course.rating} / 5`}
+										{`${course.rating} / 5`}
 									</Typography>
-									{Array.isArray(state.course.meta.skills)
-										&& state.course.meta.skills.length > 0
-										&& (
-											<Typography component="p1">
-												<b>Skills: </b>
-												{asmJoinWith(', ', state.course.meta.skills)}
-											</Typography>
-										)}
+									{course.skills && course.skills.length > 0 && (
+										<Typography component="p1">
+											<b>Skills: </b>
+											{asmJoinWith(', ', course.skills)}
+										</Typography>
+									)}
 								</Block>
 							</Block>
 							<CurrentLesson
-								key={state.course.lessons[currentLessonNumber].id}
-								lessonNumber={state.course.lessons[currentLessonNumber].order.toString()}
-								title={state.course.lessons[currentLessonNumber].title}
-								previewImg={`${state.course.lessons[currentLessonNumber].previewImageLink}/lesson-${state.course.lessons[currentLessonNumber].order}.webp`}
-								duration={toTimeString(state.course.lessons[currentLessonNumber].duration)}
-								video={state.course.lessons[currentLessonNumber].link}
+								key={lessons[currentLessonNumber].id}
+								lesson={lessons[currentLessonNumber]}
 								currentTime={currentTime}
 								onCurrentTimeChange={setCurrentTimeParams}
-								className="col-xx-12"
+								grid={{ xx: 12 }}
 							/>
 							<Block className={s.lessonsContainer}>
 								<Typography component="h3" className="col-xx-12">Other lessons</Typography>
 								{
-									state.course.lessons.map((lesson) => (
+									lessons.map((lesson) => (
 										<LessonCard
 											key={lesson.id}
-											id={lesson.id}
-											lessonNumber={lesson.order}
-											title={lesson.title}
-											previewImg={`${lesson.previewImageLink}/lesson-${lesson.order}.webp`}
-											duration={toTimeString(lesson.duration)}
-											unlocked={lesson.status === 'unlocked'}
-											current={lesson.order === currentLessonNumber + 1}
+											lesson={lesson}
+											current={
+												(lesson.order || 1) === currentLessonNumber + 1
+											}
 											onClick={handleSetCurrentLessonOnClick}
 											className={s.lesson}
 										/>
@@ -173,7 +171,7 @@ export function CoursePage() {
 					</>
 				)}
 			</Grid>
-			{!state?.status && <LoaderOverlay />}
+			{loading === true && <LoaderOverlay />}
 		</Block>
 	);
 }

@@ -12,7 +12,7 @@ import s from './CardPlayer.module.scss';
 
 const filePath = 'src/App/pages/CoursesPage/CourseCard/CardPlayer/CardPlayer.tsx';
 
-interface CardPlayer {
+interface CardPlayerProps {
 	src: string;
 	fallbackSrc: string;
 	preload: string;
@@ -28,7 +28,7 @@ export function CardPlayer({
 	loop,
 	muted,
 	className,
-}: CardPlayer) {
+}: CardPlayerProps) {
 	const [isVideoValid, setIsVideoValid] = useState(true);
 	const videoRef = useRef<HTMLVideoElement>(null);
 
