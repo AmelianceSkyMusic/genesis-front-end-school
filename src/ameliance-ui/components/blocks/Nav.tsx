@@ -2,8 +2,8 @@ import { forwardRef } from 'react';
 
 import asm from 'asm-ts-scripts';
 
-import type { Grid } from './helpers/grid';
 import { getGridClass } from './helpers/grid';
+import type { Grid } from './types/Grid';
 
 type ComponentElementType = HTMLElement;
 export interface NavProps extends ReactHTMLElementAttributes<ComponentElementType> {

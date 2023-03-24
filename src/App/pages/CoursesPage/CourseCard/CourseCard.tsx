@@ -8,7 +8,6 @@ import { useNavigateSearch } from '~hooks/useNavigateSearch';
 
 import type { BlockProps } from '~/ameliance-ui/components/blocks/Block';
 import { Block } from '~/ameliance-ui/components/blocks/Block';
-import type { Grid } from '~/ameliance-ui/components/blocks/helpers/grid';
 import { ButtonLink } from '~/ameliance-ui/components/Button';
 import { Img } from '~/ameliance-ui/components/Img';
 import { Typography } from '~/ameliance-ui/components/Typography';
