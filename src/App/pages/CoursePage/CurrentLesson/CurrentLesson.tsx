@@ -33,6 +33,7 @@ export function CurrentLesson({
 	lesson,
 	currentTime,
 	onCurrentTimeChange,
+	grid,
 	className,
 }: CurrentLessonProps) {
 	const playerRef = useRef<HTMLVideoElement>(null);
@@ -79,7 +80,7 @@ export function CurrentLesson({
 	};
 
 	return (
-		<Block className={asm.join(s.CurrentLesson, className)}>
+		<Block className={asm.join(s.CurrentLesson, className)} grid={grid}>
 			<ResizingContainer className={s.imageContainer}>
 				<Img
 					className={s.previewImg}
