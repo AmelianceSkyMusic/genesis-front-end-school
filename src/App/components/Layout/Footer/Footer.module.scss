@@ -1,0 +1,40 @@
+@use "~/ameliance-ui/styles/globals" as *;
+
+.Footer {
+	background-color: var(--color--1);
+	border-radius: 32px;
+	border: 8px solid white;
+
+	.container {
+		padding: 24px 24px;
+	}
+
+	.row {
+		row-gap: 16px;
+	}
+
+	.wisey {
+		display: flex;
+		@include screen-xs {
+			transform: scale(80%);
+		}
+	}
+
+	.asm {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: var(--color--0);
+		@include screen-xs {
+			transform: scale(80%);
+		}
+	}
+
+	.universe {
+		display: flex;
+		justify-content: flex-end;
+		@include screen-xs {
+			transform: scale(60%);
+		}
+	}
+}
