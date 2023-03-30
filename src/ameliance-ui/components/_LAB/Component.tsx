@@ -1,6 +1,6 @@
 import type { ElementType, HTMLAttributes } from 'react';
 
-interface ComponentProps extends HTMLAttributes<HTMLOrSVGElement> {
+export interface ComponentProps extends HTMLAttributes<HTMLOrSVGElement> {
 	as?: ElementType;
 }
 

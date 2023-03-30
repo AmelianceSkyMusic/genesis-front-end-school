@@ -2,12 +2,12 @@ import { Children, cloneElement, isValidElement } from 'react';
 
 type ComponentElementType = HTMLElement;
 
-type ReactChildren = ReactHTMLElementAttributes<ComponentElementType>;
+export type ReactChildrenProps = ReactHTMLElementAttributes<ComponentElementType>;
 
 export function ReactChildren({
 	children,
 	...rest
-}: ReactChildren) {
+}: ReactChildrenProps) {
 	return (
 		<>
 			{Children.map(children, (child) => {

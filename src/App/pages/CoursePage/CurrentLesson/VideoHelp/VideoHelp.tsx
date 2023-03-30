@@ -6,7 +6,7 @@ import { Typography } from '~/ameliance-ui/components/Typography';
 
 import s from './VideoHelp.module.scss';
 
-interface VideoHelp {
+interface VideoHelpProps {
 	currentSpeed: number;
 	onMinusClick: () => void;
 	onEqualClick: () => void;
@@ -16,7 +16,7 @@ interface VideoHelp {
 
 export function VideoHelp({
 	currentSpeed, onMinusClick, onEqualClick, onZeroClick, className,
-}: VideoHelp) {
+}: VideoHelpProps) {
 	return (
 		<Block className={asm.join(s.VideoHelp, className)}>
 			<Block className={s.container}>

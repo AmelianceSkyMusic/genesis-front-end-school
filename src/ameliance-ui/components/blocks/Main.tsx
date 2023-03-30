@@ -4,9 +4,9 @@ import asm from 'asm-ts-scripts';
 
 type ComponentElementType = HTMLElement;
 
-type Main = ReactHTMLElementAttributes<ComponentElementType>;
+export type MainProps = ReactHTMLElementAttributes<ComponentElementType>;
 
-export const Main = forwardRef<ComponentElementType, Main>(({
+export const Main = forwardRef<ComponentElementType, MainProps>(({
 	children,
 	className,
 	...rest

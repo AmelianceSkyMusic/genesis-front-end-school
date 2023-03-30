@@ -15,7 +15,7 @@ export function ErrorPlaceholder({ children }: ErrorPlaceholder) {
 		<Block component="main" className={s.ErrorPlaceholder}>
 			<Grid container component="section" className={s.container}>
 				<Typography component="h4">ERROR:</Typography>
-				{children}
+				<Typography component="p1">{children}</Typography>
 			</Grid>
 		</Block>
 	);

@@ -6,14 +6,14 @@ import s from './Link.module.scss';
 
 type ComponentElementType = HTMLAnchorElement;
 
-interface Link extends ReactHTMLElementAttributes<
+export interface LinkProps extends ReactHTMLElementAttributes<
 ComponentElementType, React.AnchorHTMLAttributes<ComponentElementType>> {
 	display?: TypographyVariants;
 	underline?: boolean;
 	blank?: boolean;
 }
 
-export const Link = forwardRef<ComponentElementType, Link>(({
+export const Link = forwardRef<ComponentElementType, LinkProps>(({
 	display,
 	underline,
 	children,

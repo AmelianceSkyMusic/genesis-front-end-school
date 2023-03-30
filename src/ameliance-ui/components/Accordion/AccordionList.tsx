@@ -8,7 +8,7 @@ import s from './AccordionList.module.scss';
 
 type ComponentElementType = HTMLUListElement;
 
-interface AccordionList extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface AccordionListProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	content: {
 		heading: string | string[];
 		text: string | string[];
@@ -27,7 +27,7 @@ type ContentWithId = {
 	text: string | string[];
 }[];
 
-export const AccordionList = forwardRef<ComponentElementType, AccordionList>(({
+export const AccordionList = forwardRef<ComponentElementType, AccordionListProps>(({
 	content,
 	headingComponent,
 	textComponent,
@@ -36,7 +36,7 @@ export const AccordionList = forwardRef<ComponentElementType, AccordionList>(({
 	iconSize,
 	className,
 	...rest
-}: AccordionList, ref) => {
+}, ref) => {
 	const [clicked, setClicked] = useState<number>(-1);
 	const [contentWithId, setContentWithId] = useState<ContentWithId>();
 

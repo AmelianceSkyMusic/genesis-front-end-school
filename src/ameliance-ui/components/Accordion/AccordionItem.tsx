@@ -10,7 +10,7 @@ import s from './AccordionItem.module.scss';
 
 type ComponentElementType = HTMLDivElement;
 
-interface AccordionItem extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface AccordionItemProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	heading: string | string[];
 	text?: string | string[];
 	headingComponent?: TypographyVariants;
@@ -22,7 +22,7 @@ interface AccordionItem extends ReactHTMLElementAttributes<ComponentElementType>
 	disabled?: boolean;
 }
 
-export const AccordionItem = forwardRef<ComponentElementType, AccordionItem>(({
+export const AccordionItem = forwardRef<ComponentElementType, AccordionItemProps>(({
 	heading,
 	text,
 	headingComponent,
@@ -35,7 +35,7 @@ export const AccordionItem = forwardRef<ComponentElementType, AccordionItem>(({
 	className,
 	children,
 	...rest
-}: AccordionItem, ref) => {
+}, ref) => {
 	const textContentRef = useRef<HTMLDivElement>(null);
 
 	const componentClass = [

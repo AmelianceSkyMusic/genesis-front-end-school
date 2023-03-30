@@ -11,18 +11,18 @@ import s from './EmailInput.module.scss';
 
 type ComponentElementType = HTMLInputElement;
 
-interface EmailInput extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface EmailInputProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	register: FieldValues;
 	errors: Record<string, FieldError> | undefined;
 }
 
-export const EmailInput = forwardRef<ComponentElementType, EmailInput>(({
+export const EmailInput = forwardRef<ComponentElementType, EmailInputProps>(({
 	register,
 	errors,
 	placeholder,
 	children,
 	...rest
-}: EmailInput, ref) => (
+}, ref) => (
 	<div className={s.EmailInput}>
 		<Typography component="h5">{children}</Typography>
 		<label>

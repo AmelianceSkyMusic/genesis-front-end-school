@@ -3,14 +3,14 @@ import { forwardRef, useState } from 'react';
 
 type ComponentElementType = HTMLImageElement;
 
-interface Img extends ReactHTMLElementAttributes<
+export interface ImgProps extends ReactHTMLElementAttributes<
 ComponentElementType, React.ImgHTMLAttributes<ComponentElementType>> {
 	fallbackScr?: string;
 	src: string;
 	alt: string;
 }
 
-export const Img = forwardRef<ComponentElementType, Img>(({
+export const Img = forwardRef<ComponentElementType, ImgProps>(({
 	className,
 	src,
 	alt,

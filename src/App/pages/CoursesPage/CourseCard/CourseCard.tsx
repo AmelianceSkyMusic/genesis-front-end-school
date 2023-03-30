@@ -6,6 +6,7 @@ import { ResizingContainer } from '~components/ResizingContainer/ResizingContain
 import { asmJoinWith } from '~helpers/asmJoinWith';
 import { useNavigateSearch } from '~hooks/useNavigateSearch';
 
+import type { BlockProps } from '~/ameliance-ui/components/blocks/Block';
 import { Block } from '~/ameliance-ui/components/blocks/Block';
 import { ButtonLink } from '~/ameliance-ui/components/Button';
 import { Img } from '~/ameliance-ui/components/Img';
@@ -15,7 +16,7 @@ import { CardPlayer } from './CardPlayer/CardPlayer';
 
 import s from './CourseCard.module.scss';
 
-interface CourseCard {
+interface CourseCardProps extends BlockProps {
 	id: string;
 	title: string;
 	description: string;
@@ -23,13 +24,13 @@ interface CourseCard {
 	video: string;
 	lessonsCount: number;
 	skills: string[] | null;
-	rating: number;
+	rating: number | null;
 	className?: string;
 }
 
 export function CourseCard({
-	id, title, description, previewImg, video, lessonsCount, skills, rating, className,
-}: CourseCard) {
+	id, title, description, previewImg, video, lessonsCount, skills, rating, className, grid,
+}: CourseCardProps) {
 	const [showImg, setShowImg] = useState(true);
 
 	const navigateSearch = useNavigateSearch();
@@ -39,7 +40,7 @@ export function CourseCard({
 	};
 
 	return (
-		<Block className={asm.join(s.CourseCard, className)}>
+		<Block className={asm.join(s.CourseCard, className)} grid={grid}>
 			<ButtonLink
 				onClick={handleLessonClick}
 				onMouseEnter={() => setShowImg(false)}

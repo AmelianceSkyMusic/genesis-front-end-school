@@ -8,18 +8,18 @@ import s from './List.module.scss';
 
 type ComponentElementType = HTMLUListElement;
 
-interface List extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface ListProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	type?: 'unordered' | 'custom';
 	margin?: number;
 }
 
-export const List = forwardRef<ComponentElementType, List>(({
+export const List = forwardRef<ComponentElementType, ListProps>(({
 	type,
 	margin,
 	children,
 	className,
 	...rest
-}: List, ref) => {
+}, ref) => {
 	const componentClass = [
 		type === 'unordered' && s[type],
 		type === 'custom' && s[type],

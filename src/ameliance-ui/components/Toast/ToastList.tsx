@@ -19,7 +19,7 @@ interface ToastList {
 	autoDeleteTime?: number;
 }
 
-interface Toast {
+export interface ToastListProps {
 	onClearList: () => void;
 	id: string;
 	message: string;
@@ -45,7 +45,7 @@ export function ToastList({
 	oneLine,
 	autoDeleteTime = 0,
 	maxCount = 1,
-}: Toast) {
+}: ToastListProps) {
 	const [isInit, setIsInit] = useState(true);
 
 	const [toastList, setList] = useState<ToastList[]>([]);

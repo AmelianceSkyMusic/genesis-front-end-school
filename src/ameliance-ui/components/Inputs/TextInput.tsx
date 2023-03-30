@@ -11,18 +11,18 @@ import s from './TextInput.module.scss';
 
 type ComponentElementType = HTMLInputElement;
 
-interface TextInput extends ReactHTMLElementAttributes<ComponentElementType> {
+export interface TextInputProps extends ReactHTMLElementAttributes<ComponentElementType> {
 	register: FieldValues;
 	errors: Record<string, FieldError> | undefined;
 }
 
-export const TextInput = forwardRef<ComponentElementType, TextInput>(({
+export const TextInput = forwardRef<ComponentElementType, TextInputProps>(({
 	register,
 	errors,
 	placeholder,
 	children,
 	...rest
-}: TextInput, ref) => (
+}, ref) => (
 	<div className={s.TextInput}>
 		<Typography component="h5">{children}</Typography>
 		<label>

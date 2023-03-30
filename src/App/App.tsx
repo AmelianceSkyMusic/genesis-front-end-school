@@ -3,9 +3,12 @@ import {
 } from 'react-router-dom';
 
 import { Layout } from '~components/Layout';
+import { StartScreen } from '~components/StartScreen/StartScreen';
 import { CoursePage } from '~pages/CoursePage';
 import { CoursesPage } from '~pages/CoursesPage';
 import { NotFoundPage } from '~pages/NotFoundPage';
+
+import { useAppInit } from './useAppInit';
 
 const router = createBrowserRouter(createRoutesFromElements(
 	<Route path="/" element={<Layout />}>
@@ -17,7 +20,9 @@ const router = createBrowserRouter(createRoutesFromElements(
 ));
 
 export function App() {
-	return (
-		<RouterProvider router={router} />
-	);
+	const { isInit } = useAppInit();
+
+	if (!isInit) return <StartScreen />;
+
+	return <RouterProvider router={router} />;
 }
