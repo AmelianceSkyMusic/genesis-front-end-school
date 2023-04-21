@@ -5,6 +5,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  VITE_BASE_PATH: ${{secrets.VITE_BASE_PATH}}
+
 jobs:
   build:
     runs-on: ubuntu-latest
